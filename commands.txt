@@ -1,0 +1,144 @@
+# A very good reference for git is: https://git-scm.com/
+# in particular: https://git-scm.com/doc
+# Chapters 1, 2, 3 and 5 provide a very good introduction.
+
+# In order to make next seminary more interesting, read those chapters
+# and try to make use of git and to collect questions.
+# During the next seminary I would like to (in random order):
+#  - discuss the following commands list (you can try it on your own)
+#  - discuss chapter 3
+#  - show some examples of "real-life" repositories
+#  - answer questions (collect them in advance)
+#
+# A good exercise is trying to contribute to the seminary:
+# https://github.com/giuliopaci/git-seminary-questions
+
+# Create local repository
+mkdir sample
+cd sample
+git init
+git status
+# Read manual
+git help
+# Create a file, add it to stage and commit
+git help > git-help
+less git-help
+git status
+git add git-help 
+git status
+git commit
+git status
+git log
+# Change a file and revert
+git help everyday > git-help
+git status 
+git diff
+git checkout git-help
+git status
+git log
+# Create a branch
+git branch
+git branch a
+git branch
+git checkout a
+# Change a file and commit
+sed -e 's/help/iknowit/g' git-help -i
+git diff
+git commit git-help -m "Replaced help with iknowit."
+git status 
+git log
+git log master
+# Create another branch from master
+git checkout master
+git branch b
+git checkout b
+# Change a file and commit
+sed -e 's/path/lostpath/g' git-help -i
+git commit git-help -m "Replaced path with lostpath."
+git log
+git log master
+# Compare history
+git checkout master
+git log
+git log a
+git log a --graph
+git log b --graph
+# Merge branch
+git merge a
+git log --graph
+# Reset
+git reset HEAD^1
+git status
+git checkout .
+# Merge branch
+git merge a --no-ff
+git log --graph
+# Merge conflicting branch
+git merge b --no-ff
+git log --graph
+git diff
+git mergetool
+git diff
+git status
+git commit
+git status
+less git-help.orig
+rm  git-help.orig
+git log --graph
+# Clone a bare repository
+cd ..
+mkdir -p network/bless
+git clone file:///"`pwd`"/../../sample/.git --bare 
+ls
+ls sample.git
+# Clone the repository
+cd ../..
+mkdir userB
+cd userB
+git clone file:///"`pwd`"/../network/bless/sample.git
+cd sample
+git remote
+git remote -v
+# Commit a file
+sed -e 's/bisect/trisect/g' git-help -i
+git commit git-help  -m "Replaced bisect with trisect."
+git status
+# Push
+git push
+git status
+# Go back to the original repository...
+cd ../../sample
+git remote -v
+git remote add bless file:///"`pwd`"/../network/bless/sample.git
+git remote -v
+git remote add origin file:///"`pwd`"/../network/bless/sample.git
+git remote -v
+git fetch bless
+git log bless/master
+git log master
+git status
+git branch --set-upstream-to=bless/master 
+git status
+git merge
+git status
+less git-help
+# Rebase
+git log --graph
+git rebase -i
+git log  | grep ^commit | tail -n 1 | sed -e 's/^.* //'
+git rebase -i `git log  | grep ^commit | tail -n 1 | sed -e 's/^.* //'`
+git mergetool
+git rebase --continue
+git log --graph
+git status
+rm git-help.orig
+git push
+# Rebase again
+git tag tmp
+git rebase -i `git log  | grep ^commit | tail -n 1 | sed -e 's/^.* //'`
+git log --graph
+git status
+git show
+git reset tmp
+git checkout .
+git log --graph
